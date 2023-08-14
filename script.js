@@ -1,28 +1,27 @@
-const searchInput = document.getElementById('searchInput');
-const countryList = document.getElementById('countryList');
+document.addEventListener("DOMContentLoaded", () => {
+    const countriesContainer = document.querySelector(".countries-container");
 
-async function getCountries(searchTerm) {
-    try {
-        const response = await fetch(`https://restcountries.com/v3.1/name/${searchTerm}`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching countries:', error);
-        return [];
-    }
-}
+    fetch("https://restcountries.com/v3.1/all")
+        .then(response => response.json())
+        .then(countries => {
+            countries.forEach(country => {
+                const countryCard = document.createElement("div");
+                countryCard.classList.add("country-card");
 
-function displayCountries(countries) {
-    countryList.innerHTML = '';
-    countries.forEach(country => {
-        const li = document.createElement('li');
-        li.textContent = country[0].name.common;
-        countryList.appendChild(li);
-    });
-}
+                const countryName = document.createElement("h2");
+                countryName.textContent = country.name.common;
 
-searchInput.addEventListener('input', async () => {
-    const searchTerm = searchInput.value;
-    const countries = await getCountries(searchTerm);
-    displayCountries(countries);
+                const countryCode = document.createElement("p");
+                countryCode.textContent = `Country Code: ${country.cca2}`;
+
+                countryCard.appendChild(countryName);
+                countryCard.appendChild(countryCode);
+
+                countriesContainer.appendChild(countryCard);
+            });
+        })
+        .catch(error =>
+            console.error("Error fetching countries:", error)
+        );
 });
+
