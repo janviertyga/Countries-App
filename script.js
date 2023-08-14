@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 countryCard.appendChild(countryName);
                 countryCard.appendChild(countryCode);
-                countryCard.appendChild(countryLocation);
+                
                 countriesContainer.appendChild(countryCard);
             });
         })
